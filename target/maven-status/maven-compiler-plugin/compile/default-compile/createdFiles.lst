@@ -1,0 +1,12 @@
+com\dotnar\usc\web\UserController.class
+com\dotnar\usc\web\oltu\ServerController.class
+com\dotnar\usc\web\IndexController.class
+com\dotnar\usc\config\SecurityConfig.class
+com\dotnar\usc\service\UserDetailsServiceImpl.class
+com\dotnar\usc\config\SessionConfig.class
+com\dotnar\usc\provider\CustomAuthenticationProvider.class
+com\dotnar\usc\config\SecurityConfig$1.class
+com\dotnar\usc\OAuth2ServerApplication.class
+com\dotnar\usc\config\AuthServerConfig.class
+com\dotnar\usc\model\MyUserDetails$UserRole.class
+com\dotnar\usc\model\MyUserDetails.class

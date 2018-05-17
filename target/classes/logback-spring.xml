@@ -1,0 +1,87 @@
+<!-- Logback configuration. See http://logback.qos.ch/manual/index.html -->
+<configuration scan="true" scanPeriod="10 seconds">
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <logger name="org.springframework.web" level="info"/>
+    <!-- 日志的公共输出格式 -->
+    <property name="commPattern"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{0} -%L- %msg%n" />
+    <!-- 定义控制台appender -->
+    <appender name="stdout" additivity="false"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>${commPattern}</Pattern>
+        </layout>
+    </appender>
+
+    <!-- 通用日志文件 -->
+    <appender name="commonFileAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Prudent>true</Prudent>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${user.dir}/logs/%d{yyyy-MM-dd}/common.%d{yyyy-MM-dd-HH}.log.%i
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>300MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>365</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${commPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 通用错误日志文件 -->
+    <appender name="errorFileAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Prudent>true</Prudent>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <!--<File>${user.dir}/logs/%d{yyyy-MM-dd}/error.log</File>-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${user.dir}/logs/%d{yyyy-MM-dd}/error.%d{yyyy-MM-dd-HH}.log.%i
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>300MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>365</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${commPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 邮件推送日志服务 -->
+    <appender name="mailPushFileAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Prudent>true</Prudent>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${user.dir}/logs/%d{yyyy-MM-dd}/mailPush.%d{yyyy-MM-dd-HH}.log.%i
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>300MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>365</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${commPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.mybatis" level="debug" />
+    <logger name="com.dotnar.usc.core.mapper" level="trace" />
+    <!-- 邮件推送日志服务 -->
+    <logger name="mailPushFileLoger" level="info" additivity="false">
+        <!-- 该将logger输出到公共错误信息文件 -->
+        <appender-ref ref="mailPushFileAppender" />
+        <!-- 将此logger输出到控制台 -->
+        <!--<appender-ref ref="stdout" />-->
+    </logger>
+    <root level="info">
+        <appender-ref ref="commonFileAppender" />
+        <appender-ref ref="errorFileAppender" />
+    </root>
+</configuration>

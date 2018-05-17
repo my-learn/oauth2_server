@@ -1,0 +1,74 @@
+# mybatis_config
+mybatis:
+    mapper-locations: classpath:mapper/*.xml
+
+passwordPublicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALROve2FVgis2mBzB+ccQb4ayp6W+aNESzdXj9dCVrQQQSFhshEpO1Y90LLLl4UWhFbD4gMjTs5FL6d5x6Wzz+MCAwEAAQ==
+
+spring:
+  #datasource
+  datasource:
+    name: era
+    url: jdbc:postgresql://10.1.11.19:5442/user_safe
+    username: postgres
+    password: eqZb2nE3XPOe3eBGtLVnhhowovWoBOuzb/8cKrqW4nYwcjbcIMhk6VKnxUKL2WCPOQ5fPpsT6ZuPFZD59YfhHQ==
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.postgresql.Driver
+    druid:
+      connection-properties: config.decrypt=true;config.decrypt.key=${passwordPublicKey}
+      filter:
+        config:
+          enabled: true #必须显示设置为true，否则connection-properties等属性不会生效
+      # 下面为连接池的补充设置，应用到上面所有数据源中
+      # 初始化大小，最小，最大
+      initialSize: 5
+      minIdle: 5
+      maxActive: 100
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      validation-query: SELECT 1
+
+  application:
+    name: oauth2_server
+#  session:
+#    store-type: none #配置这个来禁用session异常
+  redis:
+    session:
+      host: 10.1.11.18
+      port: 6375
+      password: usc@dotnar@abc
+
+security:
+  user:
+    password: password
+
+server:
+  port: 443
+#  session:
+#    cookie:
+#      name: OAUTH2SESSION
+  context-path: /auth
+  ssl:
+    key-store: classpath:star.makeys.info.jks
+    key-password: 123456
+    #key-alias: tomcat
+    enabled: true
+
+tomcatAjpPort: 7111
+logging:
+  level:
+#    root: debug
+    org.springframework.security: DEBUG
+#logging:
+#  level:
+#    root: debug

@@ -1,0 +1,22 @@
+.icon path{
+  fill: #4791FF;
+}
+
+.btn{
+  background: #4791FF;
+  box-shadow: 0 2px 8px 0 rgba(3,138,248,0.20);
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.sms-code{
+  border-color: #4791FF;
+  color: #4791FF;
+}
+
+.input-wrap{
+	margin-top: 30px;
+}
+.app-info,.module-title{
+	display: none;
+}

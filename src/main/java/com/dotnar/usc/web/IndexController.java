@@ -1,5 +1,7 @@
 package com.dotnar.usc.web;
 
+import com.dotnar.usc.config.SimpleAuthenticationFilter;
+import org.apache.http.HttpRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -7,16 +9,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @Controller
 public class IndexController {
 
     @RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)//配合theme-leaf可以
-    public ModelAndView login(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("login");
-        return modelAndView;
+    public String login(HttpServletRequest servletRequest){
+        /*ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/login?lang=en");*/
+        /*return modelAndView;*/
+        return "redirect:/login.html?lang=en";
     }
 
 

@@ -67,6 +67,8 @@
                     </archive>
                     <excludes>
                         <exclude>config/**</exclude>
+                        <exclude>static/**</exclude>
+                        <exclude>templates/**</exclude>
                         <exclude>application-*.yml</exclude>
                         <exclude>bootstrap.yml</exclude>
                         <exclude>logback-spring.xml</exclude>

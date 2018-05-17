@@ -17,9 +17,14 @@ import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private SimpleAuthenticationFilter filter;
 
     @Override//原始登录方式配置
     protected void configure(HttpSecurity http) throws Exception {
@@ -30,13 +35,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         , "/login"
                         , "/oauth/token"
                         , "/oauth/authorize"
-                )//这是必须有的配置，否则Access is denied (user is anonymous); redirecting to authentication entry point和org.springframework.security.access.AccessDeniedException: Access is denied
+                )
+                .and()
+                .authorizeRequests().antMatchers("/login**").permitAll()//其中login**代表后面所有参数都权限放开
                 .and()
                 .formLogin().permitAll().loginPage("/login").failureUrl("/login?error=true")
                 .and()
-//                .httpBasic().disable()//在这里配置没有启任何作用
                 .authorizeRequests().anyRequest().authenticated()
         ;
+        http.addFilterBefore(filter, SecurityContextPersistenceFilter.class);
     } // @formatter:on
 
 //    @Override//原始登录方式配置
